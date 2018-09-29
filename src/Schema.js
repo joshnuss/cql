@@ -1,5 +1,8 @@
 import {
-  GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLList,
+  GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLBoolean, GraphQLList,
+  GraphQLInt,
+  GraphQLFloat,
+  GraphQLID,
 } from 'graphql';
 import fs from 'fs';
 import path from 'path';
@@ -12,6 +15,10 @@ const schema = JSON.parse(schemaData);
 const objectTypes = {};
 const typeMap = {
   String: GraphQLString,
+  Boolean: GraphQLBoolean,
+  Int: GraphQLInt,
+  Float: GraphQLFloat,
+  Id: GraphQLID,
 };
 
 function typeForField(type) {
