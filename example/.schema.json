@@ -24,5 +24,16 @@
       "position": "String",
       "email": "String"
     }
+  },
+  "posts": {
+    "type": "Array",
+    "of": "Post"
+  },
+  "post": {
+    "fields": {
+      "id": "id",
+      "title": "string",
+      "body": "string"
+    }
   }
 }
