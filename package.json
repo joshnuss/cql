@@ -14,7 +14,8 @@
   "scripts": {
     "babel-node": "babel-node --presets=latest",
     "start": "nodemon --exec npm run babel-node -- ./index.js",
-    "build": "babel src -d dist"
+    "build": "babel src -d dist",
+    "lint": "eslint ."
   },
   "dependencies": {
     "apollo-server": "^2.1.0",
@@ -23,6 +24,9 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "eslint": "^5.6.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "nodemon": "^1.18.4"
   }
 }
