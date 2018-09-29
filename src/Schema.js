@@ -67,11 +67,6 @@ export default new GraphQLSchema({
           return JSON.parse(data);
         },
       },
-      hello: {
-        type: GraphQLString,
-        description: 'A simple type for getting started!',
-        resolve: async () => 'world2',
-      },
     },
   }),
 });
