@@ -4,11 +4,11 @@ import { version } from './package.json';
 const typeDefs = [];
 
 const server = new ApolloServer({
-  typeDefs
+  typeDefs,
 });
 
 server
   .listen()
-  .then(({url}) => {
+  .then(({ url }) => {
     console.log(`CQL v${version} started at ${url}`);
   });
