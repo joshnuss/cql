@@ -1,9 +1,9 @@
 CQL - Content Query Language
 ----------------------------
 
-Manage your content with Git.
+Store your content with Git (easy revision control)
 
-Consume your content with GraphQL.
+Consume your content with GraphQL (fetch what you need)
 
 ## Setup
 
