@@ -1,0 +1,9 @@
+{
+  "name": "cql",
+  "version": "1.0.0",
+  "description": "GraphQL backend for content management",
+  "main": "index.js",
+  "repository": "https://github.com/joshnuss/cql",
+  "author": "Josh Nussbaum",
+  "license": "MIT"
+}
