@@ -76,6 +76,10 @@ glob.sync(dataSearch).forEach(dataFilePath => {
 
   readDataFile(dataFilePath);
 
+  fs.watchFile(dataFilePath, () => {
+    readDataFile(dataFilePath);
+  });
+
   queries[name] = {
     type: new GraphQLList(objectTypes[singularize(name)]),
     resolve: () => data[name],
