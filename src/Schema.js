@@ -61,15 +61,24 @@ const queries = {};
 const data = {};
 const dataSearch = path.resolve(dataPath, '*.json');
 
-glob.sync(dataSearch).forEach(dataFilePath => {
-  const queryName = path.basename(dataFilePath, '.json');
+function queryName(dataFilePath) {
+  return path.basename(dataFilePath, '.json');
+}
+
+function readDataFile(dataFilePath) {
   const raw = fs.readFileSync(dataFilePath, 'utf-8');
 
-  data[queryName] = JSON.parse(raw);
+  data[queryName(dataFilePath)] = JSON.parse(raw);
+}
 
-  queries[queryName] = {
-    type: new GraphQLList(objectTypes[singularize(queryName)]),
-    resolve: () => data[queryName],
+glob.sync(dataSearch).forEach(dataFilePath => {
+  const name = queryName(dataFilePath);
+
+  readDataFile(dataFilePath);
+
+  queries[name] = {
+    type: new GraphQLList(objectTypes[singularize(name)]),
+    resolve: () => data[name],
   };
 });
 
