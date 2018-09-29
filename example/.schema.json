@@ -6,7 +6,7 @@
   "team": {
     "type": "Object",
     "fields": {
-      "id": "String",
+      "id": "id",
       "name": "String",
       "members": {
         "type": "Array",
@@ -17,7 +17,7 @@
   "member": {
     "type": "Object",
     "fields": {
-      "id": "String",
+      "id": "id",
       "name": "String",
       "position": "String",
       "email": "String"

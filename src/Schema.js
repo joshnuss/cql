@@ -30,7 +30,7 @@ function typeForField(type) {
     }
   }
 
-  const mapped = typeMap[type] || objectTypes[type];
+  const mapped = typeMap[camelize(type)] || objectTypes[type];
 
   return { type: mapped };
 }
