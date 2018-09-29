@@ -5,6 +5,7 @@
   },
   "team": {
     "type": "Object",
+    "description": "A collection of members",
     "fields": {
       "id": "id",
       "name": "String",
@@ -16,6 +17,7 @@
   },
   "member": {
     "type": "Object",
+    "description": "A single person on the team",
     "fields": {
       "id": "id",
       "name": "String",

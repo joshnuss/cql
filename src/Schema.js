@@ -41,6 +41,7 @@ Object.keys(schema).forEach(name => {
   if (object.type === 'Object') {
     objectTypes[name] = new GraphQLObjectType({
       name: camelize(name),
+      description: object.description,
       fields: () => {
         const fields = {};
 
