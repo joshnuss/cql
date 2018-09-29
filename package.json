@@ -20,7 +20,8 @@
   "dependencies": {
     "apollo-server": "^2.1.0",
     "babel-preset-latest": "^6.24.1",
-    "graphql": "^14.0.2"
+    "graphql": "^14.0.2",
+    "inflected": "^2.0.4"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
