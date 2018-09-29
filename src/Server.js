@@ -1,9 +1,4 @@
 import { ApolloServer } from 'apollo-server';
+import schema from './Schema';
 
-const typeDefs = [];
-
-const server = new ApolloServer({
-  typeDefs,
-});
-
-export default server;
+export default new ApolloServer({ schema });
