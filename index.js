@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Server from './src/Server';
 import { version } from './package.json';
 
