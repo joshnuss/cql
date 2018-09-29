@@ -1,4 +1,4 @@
-CQL - Content Query Language
+CQL - GraphQL for static data
 ----------------------------
 
 Store your content with Git (easy revision control)
