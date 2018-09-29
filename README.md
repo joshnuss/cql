@@ -77,6 +77,8 @@ Create a `teams.json` file to store your data, here's an example:
 yarn start
 ```
 
+Visit http://localhost:4000 to test queries and subscriptions
+
 ## License
 
 MIT
