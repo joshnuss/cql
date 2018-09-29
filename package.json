@@ -5,5 +5,8 @@
   "main": "index.js",
   "repository": "https://github.com/joshnuss/cql",
   "author": "Josh Nussbaum",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server": "^2.1.0"
+  }
 }
