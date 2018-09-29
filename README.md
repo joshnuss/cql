@@ -12,6 +12,11 @@ hub clone joshnuss/cql
 cd cql
 yarn
 ```
+## Run server
+
+```bash
+yarn start
+```
 
 ## License
 
