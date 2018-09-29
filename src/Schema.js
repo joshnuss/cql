@@ -58,16 +58,18 @@ Object.keys(schema).forEach(name => {
 });
 
 const queries = {};
+const data = {};
 const dataSearch = path.resolve(dataPath, '*.json');
 
 glob.sync(dataSearch).forEach(dataFilePath => {
   const queryName = path.basename(dataFilePath, '.json');
   const raw = fs.readFileSync(dataFilePath, 'utf-8');
-  const data = JSON.parse(raw);
+
+  data[queryName] = JSON.parse(raw);
 
   queries[queryName] = {
     type: new GraphQLList(objectTypes[singularize(queryName)]),
-    resolve: () => data,
+    resolve: () => data[queryName],
   };
 });
 
