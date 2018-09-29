@@ -19,7 +19,7 @@ yarn
 mkdir example
 ```
 
-Create a `.schema.json` file to describe your data strucure:
+Create a `.schema.json` file to describe your data strucure, here's an example:
 
 ```json
 {
@@ -52,7 +52,7 @@ Create a `.schema.json` file to describe your data strucure:
 }
 ```
 
-Create a `teams.json` file to store your data, example:
+Create a `teams.json` file to store your data, here's an example:
 
 ```json
 [
