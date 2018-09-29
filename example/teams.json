@@ -1,0 +1,32 @@
+[
+  {
+    "id": "engineering",
+    "name": "Engineering",
+    "members": [
+      {
+        "id": "joshnuss",
+        "name": "Josh Nussbaum",
+        "position": "Software Developer",
+        "email": "joshnuss@example.com"
+      }
+    ]
+  },
+  {
+    "id": "marketing",
+    "name": "Marketing",
+    "members": [
+      {
+        "id": "jsmith",
+        "name": "John Smith",
+        "position": "CMO",
+        "email": "jsmith@example.com"
+      },
+      {
+        "id": "sjane",
+        "name": "Sally Jane",
+        "position": "Director of Marketing",
+        "email": "sjane@example.com"
+      }
+    ]
+  }
+]

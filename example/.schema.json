@@ -1,0 +1,26 @@
+{
+  "teams": {
+    "type": "Array",
+    "of": "team"
+  },
+  "team": {
+    "type": "Object",
+    "fields": {
+      "id": "String",
+      "name": "String",
+      "members": {
+        "type": "Array",
+        "of": "member"
+      }
+    }
+  },
+  "member": {
+    "type": "Object",
+    "fields": {
+      "id": "String",
+      "name": "String",
+      "position": "String",
+      "email": "String"
+    }
+  }
+}
