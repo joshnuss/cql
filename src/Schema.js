@@ -7,7 +7,7 @@ import {
 import { PubSub } from 'apollo-server';
 import fs from 'fs';
 import path from 'path';
-import { camelize, singularize, } from 'inflected';
+import { camelize, singularize } from 'inflected';
 import glob from 'glob';
 import _ from 'lodash';
 
@@ -143,7 +143,6 @@ glob.sync(dataSearch).forEach(dataFilePath => {
 
       pubsub.publish(events.deleted, args);
     });
-
   });
 
   queries[name] = {
@@ -153,23 +152,17 @@ glob.sync(dataSearch).forEach(dataFilePath => {
 
   subscriptions[events.added] = {
     type: objectTypes.post,
-    subscribe: () => {
-      return pubsub.asyncIterator([events.added]);
-    },
+    subscribe: () => pubsub.asyncIterator([events.added]),
   };
 
   subscriptions[events.changed] = {
     type: objectTypes.post,
-    subscribe: () => {
-      return pubsub.asyncIterator([events.changed]);
-    },
+    subscribe: () => pubsub.asyncIterator([events.changed]),
   };
 
   subscriptions[events.deleted] = {
     type: objectTypes.post,
-    subscribe: () => {
-      return pubsub.asyncIterator([events.deleted]);
-    },
+    subscribe: () => pubsub.asyncIterator([events.deleted]),
   };
 });
 
@@ -181,5 +174,5 @@ export default new GraphQLSchema({
   subscription: new GraphQLObjectType({
     name: 'Subscription',
     fields: subscriptions,
-  })
+  }),
 });
