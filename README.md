@@ -12,6 +12,65 @@ hub clone joshnuss/cql
 cd cql
 yarn
 ```
+
+## Create a content folder
+
+```bash
+mkdir example
+```
+
+Create a `.schema.json` file to describe your data strucure:
+
+```json
+{
+  "teams": {
+    "type": "Array",
+    "of": "team"
+  },
+  "team": {
+    "type": "Object",
+    "description": "A collection of members",
+    "fields": {
+      "id": "id",
+      "name": "String",
+      "members": {
+        "type": "Array",
+        "of": "member"
+      }
+    }
+  },
+  "member": {
+    "type": "Object",
+    "description": "A single person on the team",
+    "fields": {
+      "id": "id",
+      "name": "String",
+      "position": "String",
+      "email": "String"
+    }
+  }
+}
+```
+
+Create a `teams.json` file to store your data, example:
+
+```json
+[
+  {
+    "id": "engineering",
+    "name": "Engineering",
+    "members": [
+      {
+        "id": "joshnuss",
+        "name": "Josh Nussbaum",
+        "email": "joshnuss@gmail.com"
+      }
+    ]
+  }
+]
+```
+
+
 ## Run server
 
 ```bash
