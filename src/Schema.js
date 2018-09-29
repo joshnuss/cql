@@ -6,9 +6,11 @@ import {
 } from 'graphql';
 import fs from 'fs';
 import path from 'path';
-import { camelize } from 'inflected';
+import { camelize, singularize } from 'inflected';
+import glob from 'glob';
 
-const schemaPath = path.resolve(__dirname, '../example/.schema.json');
+const dataPath = path.resolve(__dirname, '../example');
+const schemaPath = path.resolve(dataPath, '.schema.json');
 const schemaData = fs.readFileSync(schemaPath, 'utf-8');
 const schema = JSON.parse(schemaData);
 
@@ -38,7 +40,7 @@ function typeForField(type) {
 Object.keys(schema).forEach(name => {
   const object = schema[name];
 
-  if (object.type === 'Object') {
+  if (object.type === 'Object' || !object.type) {
     objectTypes[name] = new GraphQLObjectType({
       name: camelize(name),
       description: object.description,
@@ -55,19 +57,23 @@ Object.keys(schema).forEach(name => {
   }
 });
 
+const queries = {};
+const dataSearch = path.resolve(dataPath, '*.json');
+
+glob.sync(dataSearch).forEach(dataFilePath => {
+  const queryName = path.basename(dataFilePath, '.json');
+  const raw = fs.readFileSync(dataFilePath, 'utf-8');
+  const data = JSON.parse(raw);
+
+  queries[queryName] = {
+    type: new GraphQLList(objectTypes[singularize(queryName)]),
+    resolve: () => data,
+  };
+});
+
 export default new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'Query',
-    fields: {
-      teams: {
-        type: new GraphQLList(objectTypes.team),
-        resolve: () => {
-          const filePath = path.resolve(__dirname, '../example/teams.json');
-          const data = fs.readFileSync(filePath, 'utf-8');
-
-          return JSON.parse(data);
-        },
-      },
-    },
+    fields: queries,
   }),
 });
