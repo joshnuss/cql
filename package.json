@@ -1,12 +1,28 @@
 {
   "name": "cql",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "GraphQL backend for content management",
   "main": "index.js",
   "repository": "https://github.com/joshnuss/cql",
   "author": "Josh Nussbaum",
   "license": "MIT",
+  "babel": {
+    "presets": [
+      "latest"
+    ]
+  },
+  "scripts": {
+    "babel-node": "babel-node --presets=latest",
+    "start": "nodemon --exec npm run babel-node -- ./index.js",
+    "build": "babel src -d dist"
+  },
   "dependencies": {
-    "apollo-server": "^2.1.0"
+    "apollo-server": "^2.1.0",
+    "babel-preset-latest": "^6.24.1",
+    "graphql": "^14.0.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "nodemon": "^1.18.4"
   }
 }
