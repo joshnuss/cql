@@ -116,9 +116,9 @@ glob.sync(dataSearch).forEach(dataFilePath => {
 
   fs.watchFile(dataFilePath, () => {
     const oldData = data[name];
-    const newData = readDataFile(dataFilePath);
+    data[name] = readDataFile(dataFilePath);
 
-    const { added, changed, deleted } = diff(oldData, newData);
+    const { added, changed, deleted } = diff(oldData, data[name]);
 
     added.forEach(record => {
       const args = {};
@@ -151,18 +151,18 @@ glob.sync(dataSearch).forEach(dataFilePath => {
   };
 
   subscriptions[events.added] = {
-    type: objectTypes.post,
+    type: objectTypes[singular],
     subscribe: () => pubsub.asyncIterator([events.added]),
   };
 
   subscriptions[events.changed] = {
-    type: objectTypes.post,
+    type: objectTypes[singular],
     subscribe: () => pubsub.asyncIterator([events.changed]),
   };
 
   subscriptions[events.deleted] = {
-    type: objectTypes.post,
-    subscribe: () => pubsub.asyncIterator([events.deleted]),
+    type: objectTypes[singular],
+    subscribe: () => pubsub.asyncIterator([events.changed]),
   };
 });
 
