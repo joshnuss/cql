@@ -9,6 +9,7 @@ import fs from 'fs';
 import path from 'path';
 import { camelize, singularize, } from 'inflected';
 import glob from 'glob';
+import _ from 'lodash';
 
 const dataPath = path.resolve(__dirname, '../example');
 const schemaPath = path.resolve(dataPath, '.schema.json');
@@ -72,29 +73,83 @@ function queryName(dataFilePath) {
 function readDataFile(dataFilePath) {
   const raw = fs.readFileSync(dataFilePath, 'utf-8');
 
-  data[queryName(dataFilePath)] = JSON.parse(raw);
+  return JSON.parse(raw);
+}
+
+function diff(oldData, newData) {
+  const oldDict = _.keyBy(oldData, 'id');
+  const newDict = _.keyBy(newData, 'id');
+  const oldIds = Object.keys(oldDict);
+  const newIds = Object.keys(newDict);
+
+  const added = [];
+  const changed = [];
+  const deleted = [];
+
+  _.difference(newIds, oldIds).forEach(id => {
+    added.push(newDict[id]);
+  });
+
+  oldIds.forEach(id => {
+    if (newDict[id]) {
+      if (JSON.stringify(oldDict[id]) !== JSON.stringify(newDict[id])) {
+        changed.push(newDict[id]);
+      }
+    } else {
+      deleted.push(oldDict[id]);
+    }
+  });
+
+  return { added, changed, deleted };
 }
 
 glob.sync(dataSearch).forEach(dataFilePath => {
   const name = queryName(dataFilePath);
+  const singular = singularize(name);
+  const events = {
+    added: `${singular}Added`,
+    changed: `${singular}Changed`,
+    deleted: `${singular}Deleted`,
+  };
 
-  readDataFile(dataFilePath);
+  data[name] = readDataFile(dataFilePath);
 
   fs.watchFile(dataFilePath, () => {
-    readDataFile(dataFilePath);
+    const oldData = data[name];
+    const newData = readDataFile(dataFilePath);
+
+    const { added, changed, deleted } = diff(oldData, newData);
+
+    added.forEach(record => {
+      const args = {};
+
+      args[events.added] = record;
+
+      pubsub.publish(events.added, args);
+    });
+
+    changed.forEach(record => {
+      const args = {};
+
+      args[events.changed] = record;
+
+      pubsub.publish(events.changed, args);
+    });
+
+    deleted.forEach(record => {
+      const args = {};
+
+      args[events.deleted] = record;
+
+      pubsub.publish(events.deleted, args);
+    });
+
   });
 
   queries[name] = {
     type: new GraphQLList(objectTypes[singularize(name)]),
     resolve: () => data[name],
   };
-
-  const singular = singularize(name);
-  const events = {
-    added: `${singular}Added`,
-    changed: `${singular}Changed`,
-    deleted: `${singular}Deleted`,
-  }
 
   subscriptions[events.added] = {
     type: objectTypes.post,
