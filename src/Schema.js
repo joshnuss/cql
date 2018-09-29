@@ -4,15 +4,18 @@ import {
   GraphQLFloat,
   GraphQLID,
 } from 'graphql';
+import { PubSub } from 'apollo-server';
 import fs from 'fs';
 import path from 'path';
-import { camelize, singularize } from 'inflected';
+import { camelize, singularize, } from 'inflected';
 import glob from 'glob';
 
 const dataPath = path.resolve(__dirname, '../example');
 const schemaPath = path.resolve(dataPath, '.schema.json');
 const schemaData = fs.readFileSync(schemaPath, 'utf-8');
 const schema = JSON.parse(schemaData);
+
+const pubsub = new PubSub();
 
 const objectTypes = {};
 const typeMap = {
@@ -58,6 +61,7 @@ Object.keys(schema).forEach(name => {
 });
 
 const queries = {};
+const subscriptions = {};
 const data = {};
 const dataSearch = path.resolve(dataPath, '*.json');
 
@@ -84,6 +88,34 @@ glob.sync(dataSearch).forEach(dataFilePath => {
     type: new GraphQLList(objectTypes[singularize(name)]),
     resolve: () => data[name],
   };
+
+  const singular = singularize(name);
+  const events = {
+    added: `${singular}Added`,
+    changed: `${singular}Changed`,
+    deleted: `${singular}Deleted`,
+  }
+
+  subscriptions[events.added] = {
+    type: objectTypes.post,
+    subscribe: () => {
+      return pubsub.asyncIterator([events.added]);
+    },
+  };
+
+  subscriptions[events.changed] = {
+    type: objectTypes.post,
+    subscribe: () => {
+      return pubsub.asyncIterator([events.changed]);
+    },
+  };
+
+  subscriptions[events.deleted] = {
+    type: objectTypes.post,
+    subscribe: () => {
+      return pubsub.asyncIterator([events.deleted]);
+    },
+  };
 });
 
 export default new GraphQLSchema({
@@ -91,4 +123,8 @@ export default new GraphQLSchema({
     name: 'Query',
     fields: queries,
   }),
+  subscription: new GraphQLObjectType({
+    name: 'Subscription',
+    fields: subscriptions,
+  })
 });
